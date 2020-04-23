@@ -2,15 +2,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SearchEngineModel;
 using System.Linq;
+using QueryParser;
 
 namespace SearchEngineHandler
 {
     public class SearchHandler : ISearchHandler
     {
-        private readonly ISearchQueryParser _searchQueryParser;
+        private readonly IQueryParserFactory _searchQueryFactory;
         private readonly ISearchEngineResolver _searchEngineResolver;
-        public SearchHandler(ISearchQueryParser searchQueryParser, ISearchEngineResolver searchEngineResolver) {
-            _searchQueryParser = searchQueryParser;
+        public SearchHandler(IQueryParserFactory searchQueryFactory, ISearchEngineResolver searchEngineResolver) {
+            _searchQueryFactory = searchQueryFactory;
             _searchEngineResolver = searchEngineResolver;
         }
 
@@ -18,8 +19,9 @@ namespace SearchEngineHandler
         public async Task<IEnumerable<SearchResult>> ProcessSearch(string searchQuery)
         {
             var results = new List<SearchResult>();
+            var parser = _searchQueryFactory.GetQueryParser();
 
-            var searchKeyWords = _searchQueryParser.ParseQuery(searchQuery);
+            var searchKeyWords = parser.ParseQuery(searchQuery);
 
             if(!searchKeyWords.Any())
                 return null;
@@ -34,7 +36,7 @@ namespace SearchEngineHandler
                     
                 foreach(var searchEngine in searchEngines) {
                     engineResult = await searchEngine.Search(keyWord);
-                    result.EngineResult.Add(engineResult);
+                    result.EngineResults.Add(engineResult);
                 }
                 results.Add(result);
             }

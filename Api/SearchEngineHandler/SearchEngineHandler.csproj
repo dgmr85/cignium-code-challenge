@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SearchEngineModel\SearchEngineModel.csproj" />
     <ProjectReference Include="..\SearchEngines\SearchEngines.csproj" />
+    <ProjectReference Include="..\QueryParser\QueryParser.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -6,26 +6,22 @@ using Google.Apis.Services;
 using System;
 
 namespace SearchEngines{
-    public class GoogleSearchEngine : ISearchEngine
+    public class GoogleSearchEngine : BaseSearchEngine
     {
-        public string EngineName {get;set;}
-        public string ApiKey {get;set;}
-
         private CustomsearchService Service;
 
-        public GoogleSearchEngine()
+        public GoogleSearchEngine():base("Google")
         {
-            this.ApiKey="AIzaSyCRXAgUzyS7NDTn42OvrrLTXisRX0AAtjw";
-            this.EngineName="Google";
+            ApiKey="AIzaSyCRXAgUzyS7NDTn42OvrrLTXisRX0AAtjw";
             this.Service = new CustomsearchService(
                 new BaseClientService.Initializer {
                     ApplicationName = "SearchApi",
-                    ApiKey = this.ApiKey
+                    ApiKey = ApiKey
                 }
             );
         }
 
-        public async Task<EngineResult> Search(string keyword)
+        public override async Task<EngineResult> Search(string keyword)
         {
             CseResource.ListRequest listRequest = this.Service.Cse.List();
             Search result;
@@ -35,13 +31,13 @@ namespace SearchEngines{
                 result = await listRequest.ExecuteAsync();
             } catch(Exception ex) {
                 return new EngineResult {
-                    EngineName = this.EngineName,
+                    EngineName = base.EngineName,
                     ResultCount = 0
                 };
             }
             
             return new EngineResult {
-                EngineName = this.EngineName,
+                EngineName = base.EngineName,
                 ResultCount = result.Items.Count
             };
         }

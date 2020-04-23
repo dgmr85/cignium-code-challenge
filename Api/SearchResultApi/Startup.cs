@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SearchEngineHandler;
+using QueryParser;
 
 namespace SearchResultApi
 {
@@ -38,7 +39,8 @@ namespace SearchResultApi
 
             services.AddScoped<ISearchHandler,SearchHandler>();
             services.AddScoped<ISearchEngineResolver,SearchEngineResolver>();
-            services.AddScoped<ISearchQueryParser,SearchQueryParser>();
+            services.AddScoped<IQueryParserFactory,QueryParserFactory>();
+            services.AddScoped<IResultCalculator,ResultCalculator>();
             services.AddControllers();
         }
 

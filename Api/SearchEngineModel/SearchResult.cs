@@ -4,10 +4,11 @@ namespace SearchEngineModel {
     public class SearchResult {
 
         public SearchResult() {
-            this.EngineResult = new List<EngineResult>();
+            this.EngineResults = new List<EngineResult>();
         }
 
         public string SearchWord {get;set;}
-        public List<EngineResult> EngineResult { get; set; }
+        public List<EngineResult> EngineResults { get; set; }
+        public string WordWinner {get;set;}
     }
 }

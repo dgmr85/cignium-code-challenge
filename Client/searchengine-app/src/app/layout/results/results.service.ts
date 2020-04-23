@@ -8,7 +8,7 @@ import { SearchResult } from '../model/SearchResult';
 })
 export class ResultsService {
   private url = "http://localhost:5000/api/SearchEngine/Search";
-  private resultSubject = new Subject<{ searchResult: SearchResult[]}>();
+  private resultSubject = new Subject<{ searchResult: SearchResult[], finalWinner:string}>();
 
   constructor(private http: HttpClient) {}
 
@@ -17,9 +17,9 @@ export class ResultsService {
       searchQuery
     };
 
-    this.http.post<{result:SearchResult[]}>(this.url,queryBody)
+    this.http.post<{result:SearchResult[], finalWinner:string}>(this.url,queryBody)
     .subscribe(response => {
-        this.resultSubject.next({ searchResult: [...response.result]});
+        this.resultSubject.next({ searchResult: [...response.result], finalWinner: response.finalWinner});
     })
   }
 

@@ -1,7 +1,9 @@
 <div class="engine-result">
     <label>{{result.searchWord}}</label>
+    <br>
+    <span>Word Winner: {{result.wordWinner}}</span>
     <ul>
-      <li *ngFor="let r of result.engineResult">
+      <li *ngFor="let r of result.engineResults">
           <span>{{r.engineName}}</span>:
           <span style="font-weight: bold;">{{r.resultCount}}</span>
       </li>

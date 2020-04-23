@@ -14,12 +14,15 @@ namespace SearchResultApi.Controllers
     {
         private readonly ILogger<SearchEngineController> _logger;
         private readonly ISearchHandler _searchHandler;
+        private readonly IResultCalculator _resultCalculator;
 
         public SearchEngineController(ILogger<SearchEngineController> logger,
-                ISearchHandler searchHandler)
+                ISearchHandler searchHandler,
+                IResultCalculator resultCalculator)
         {
             _logger = logger;
             _searchHandler = searchHandler;
+            _resultCalculator = resultCalculator;
         }
 
         [HttpPost]
@@ -27,12 +30,14 @@ namespace SearchResultApi.Controllers
         public async Task<ActionResult> Search([FromBody] QueryBody query)
         {
             var result = await _searchHandler.ProcessSearch(query.SearchQuery);
+            var winner = _resultCalculator.GetWinners(result);
 
             if(result == null)
                 return NotFound();
             
             return Ok(new {
-                result=result
+                result=result,
+                finalWinner=winner
             });
         }
     }

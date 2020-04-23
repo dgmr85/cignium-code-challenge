@@ -6,9 +6,6 @@ namespace SearchEngines
 {
     public interface ISearchEngine
     {
-        string EngineName {get;set;}
-        string ApiKey { get; set; }
-
         Task<EngineResult> Search(string keyword);
     }
 }

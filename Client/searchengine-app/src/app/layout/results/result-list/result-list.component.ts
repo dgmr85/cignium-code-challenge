@@ -11,6 +11,7 @@ import { SearchResult } from '../../model/SearchResult';
 })
 export class ResultListComponent implements OnInit,OnDestroy {
     results: SearchResult[] = [];
+    finalWinner:string;
     private resultSub = new Subscription();
 
     constructor(private searchService: ResultsService) {}
@@ -19,6 +20,7 @@ export class ResultListComponent implements OnInit,OnDestroy {
       this.resultSub = this.searchService.getResultSubject()
       .subscribe(payload => {
         this.results = payload.searchResult;
+        this.finalWinner = payload.finalWinner;
         console.log(this.results);
       });
     }
